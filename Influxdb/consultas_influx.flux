@@ -35,4 +35,15 @@ from(bucket: "Datos_Ciudades")
   |> min() // Calcula el valor mínimo
   |> map(fn: (r) => ({ r with temp_minima: r._value })) // Crea la nueva columna 'temp_minima'
   |> drop(columns: ["_value"]) // Elimina la columna _value original
+
   |> yield(name: "temperaturas_minimas")
+
+
+ // --- Nota: A partir de aquí se recomienda crear un nuevo script de Flux dentro del Notebook ---
+
+// Consulta para realizar un gráfico que represente las tendencias
+
+from(bucket: "Datos_Ciudades")
+  |> range(start: 2024-11-11T00:00:00Z, stop: 2025-11-30T00:00:00Z)
+  |> filter(fn: (r) => r._measurement == "temperatura")
+  |> group(columns: ["ciudad"])
