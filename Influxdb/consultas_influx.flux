@@ -1,0 +1,8 @@
+from(bucket: "Datos_Ciudades")
+  |> range(start: 2024-11-11T00:00:00Z, stop: 2025-10-16T00:00:00Z)
+  |> filter(fn: (r) => r._measurement == "temperatura" and r._field == "ambiente")
+  |> group(columns: ["ciudad"])
+  |> mean() // Calcula el promedio y lo guarda en la columna _value
+  |> map(fn: (r) => ({ r with promedio_temp: r._value })) // Crea la nueva columna 'promedio_temp'
+  |> drop(columns: ["_value"]) // Elimina la columna _value original
+  |> yield(name: "temperaturas_promedio_nombrada") 
