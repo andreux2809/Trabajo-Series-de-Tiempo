@@ -1,0 +1,6 @@
+{
+  _id: ciudad,
+  maximo: { $max: "$temperatura" },
+  minimo: { $min: "$temperatura" },
+  promedio: { $avg: "$temperatura" }
+}
